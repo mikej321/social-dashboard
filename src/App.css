@@ -51,6 +51,7 @@ html {
 }
 
 body {
+  position: relative;
   font-family: var(--font_family);
   font-size: 1.6rem;
   display: flex;
@@ -60,6 +61,30 @@ body {
   justify-content: center;
 }
 
+.darkMode {
+  background: var(--very_dark_blue_bg);
+}
+
+@media screen and (min-width: 500px) {
+  body {
+    align-items: start;
+  }
+  
+  body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 33%;
+    background: var(--very_pale_blue_top_bg);
+    z-index: -1;
+  }
+
+  body.darkMode::after {
+    background: var(--very_dark_blue_top_bg);
+  }
+}
+
 .container {
   display: grid;
   grid-template-areas: "header" "main";
@@ -67,13 +92,42 @@ body {
   padding-inline: 2rem;
 }
 
+
+
+@media screen and (min-width: 600px) {
+  .container {
+    min-width: 100vw;
+    padding-inline: 10rem;
+    grid-template-areas: "header header header header" "main main main main";
+  }
+}
+
 header {
   grid-area: header;
   position: relative;
+  display: flex;
+  flex-direction: column;
   margin-bottom: 4rem;
 }
 
-header::after {
+
+
+
+@media screen and (min-width: 600px) {
+  header {
+    position: relative;
+    margin-bottom: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.title_container {
+  margin-bottom: 4rem;
+}
+
+.title_container::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -87,10 +141,31 @@ header::after {
   margin-bottom: .5rem;
 }
 
+.darkMode .title {
+  color: var(--white_bg);
+}
+
+@media screen and (min-width: 600px) {
+  .title_container::after {
+    position: static;
+    width: 0;
+    height: 0;
+    top: 0;
+  }
+}
+
 header p {
   color: var(--dark_grayish_blue_text);
   font-size: 1.3rem;
   font-weight: 700;
+}
+
+.darkMode header p {
+  color: var(--desaturated_blue_text);
+}
+
+.darkMode p {
+  color: var(--desaturated_blue_text);
 }
 
 main {
@@ -105,32 +180,61 @@ main {
 }
 
 .theme_switcher_container > p {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--dark_grayish_blue_text);
 }
 
 .theme_active_button {
   position: relative;
+  pointer-events: all;
+  cursor: pointer;
 }
 
 .bar {
+  pointer-events: none;
   width: 100%;
   min-width: 5rem;
   height: 2.5rem;
   border-radius: 40px;
   background: var(--toggle_light);
-  
+  transition: background 0.2s ease-in-out;
+}
+
+.darkMode .bar {
+  background: linear-gradient(45deg, hsl(210, 78%, 56%), hsl(146, 68%, 55%));
+}
+
+.theme_active_button:hover .bar {
+  background: linear-gradient(45deg, hsl(210, 78%, 56%), hsl(146, 68%, 55%));
 }
 
 .bar_ball {
   position: absolute;
-  top: .27rem;
-  left: .3rem;
+  pointer-events: none;
+  top: .25rem;
+  right: .3rem;
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
   background: white;
+  transition: all 0.1s ease-in-out;
+}
+
+.theme_active_button.clicked .bar_ball {
+  right: 2.7rem;  
+}
+
+.darkMode .bar_ball {
+  background: var(--very_dark_blue_bg);
+}
+
+@media screen and (min-width: 400px) {
+  .theme_switcher_container > p {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 }
 
 .social_card_container {
@@ -140,15 +244,40 @@ main {
   margin-bottom: 5rem;
 }
 
+@media screen and (min-width: 500px) {
+  .social_card_container {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .social_card_container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .social_card {
+  cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--light_grayish_blue_card_bg);
+  background: var(--very_pale_blue_top_bg);
   padding-block: 3rem 2rem;
   gap: 2rem;
   border-radius: 4px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease-in-out;
+}
+
+.social_card:hover {
+  background: var(--light_grayish_blue_card_bg);
+}
+
+.darkMode .social_card {
+  background: var(--dark_desaturated_blue_card_bg);
+  color: var(--white_text);
 }
 
 .card_facebook {
@@ -186,6 +315,10 @@ main {
   font-weight: 700;
 }
 
+.darkMode .user_name_container p {
+  color: var(--desaturated_blue_text);
+}
+
 .follower_count {
   display: flex;
   flex-direction: column;
@@ -204,6 +337,10 @@ main {
   letter-spacing: 5px;
 }
 
+.darkMode .follower_count p {
+  color: var(--desaturated_blue_text);
+}
+
 .trending_container {
   display: flex;
   align-items: center;
@@ -220,10 +357,18 @@ main {
   font-size: 1.2rem;
 }
 
+.darkMode .percentage_up {
+  color: var(--lime_green);
+}
+
 .percentage_down {
   color: var(--bright_red);
   font-weight: 700;
   font-size: 1.2rem;
+}
+
+.darkMode .percentage_down {
+  color: var(--bright_red);
 }
 
 .overview_container h3 {
@@ -232,19 +377,54 @@ main {
   margin-bottom: 2rem;
 }
 
+.darkMode .overview_container h3 {
+  color: var(--white_text);
+}
+
 .overview_card_container {
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 2rem;
 }
 
+@media screen and (min-width: 500px) {
+  .overview_card_container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    column-gap: 2rem
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .overview_card_container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .overview_card {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  background: var(--light_grayish_blue_card_bg);
+  background: var(--very_pale_blue_top_bg);
   border-radius: 4px;
   padding: 3rem;
   gap: 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease-in-out;
+}
+
+.overview_card:hover {
+  background: var(--light_grayish_blue_card_bg);
+}
+
+.darkMode .overview_card {
+  background: var(--dark_desaturated_blue_card_bg);
+}
+
+@media screen and (min-width: 600px) {
+  .overview_card {
+    min-width: 17.8rem;
+  }
 }
 
 .overview_title_container {
@@ -259,6 +439,10 @@ main {
   font-size: 1.3rem;
 }
 
+.darkMode .overview_title_container > p {
+  color: var(--desaturated_blue_text);
+}
+
 .stats_container {
   display: flex;
   justify-content: space-between;
@@ -268,6 +452,10 @@ main {
 .stats_container > p {
   font-size: 3.5rem;
   font-weight: 700;
+}
+
+.darkMode .stats_container > p {
+  color: var(--white_text);
 }
 
 .percentage_container {

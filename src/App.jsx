@@ -4,22 +4,50 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 const App = () => {
-  return (
-    <div className="container">
-        <Header />
-        <main>
-            <Content />
-            <Overview />
-        </main>
-    </div>
-  )
+    
+    const [clicked, setClicked] = useState(false);
+
+    const changeClickState = (e) => {
+        if (e.target.classList.contains("theme_active_button") && !clicked) {
+            e.target.classList.add('clicked');
+            document.body.classList.add('darkMode');
+            setClicked(true);
+        } else if (e.target.classList.contains("theme_active_button") && clicked) {
+            e.target.classList.remove('clicked');
+            document.body.classList.remove('darkMode');
+            setClicked(false);
+        }
+    }
+
+    return (
+        <div className="container">
+            <Header clickState={(e) => changeClickState(e)} />
+            <main>
+                <Content />
+                <Overview />
+            </main>
+        </div>
+    )
 }
 
-const Header = () => {
+const Header = ({ clickState }) => {
+
+    const handleClick = (e) => {
+        clickState(e);
+    }
     return (
         <header>
-            <h1 className="title">Social Media Dashboard</h1>
-            <p>Total Followers: 23,004</p>
+            <div className="title_container">
+                <h1 className="title">Social Media Dashboard</h1>
+                <p>Total Followers: 23,004</p>
+            </div>
+            <div className="theme_switcher_container">
+                <p>Dark Mode</p>
+                <div className="theme_active_button" onClick={handleClick}>
+                    <div className="bar"></div>
+                    <div className="bar_ball"></div>
+                </div>
+            </div>
         </header>
     )
 }
@@ -27,13 +55,6 @@ const Header = () => {
 const Content = () => {
     return (
         <>
-            <div className="theme_switcher_container">
-                <p>Dark Mode</p>
-                <div className="theme_active_button">
-                    <div className="bar"></div>
-                    <div className="bar_ball"></div>
-                </div>
-            </div>
             <div className="social_card_container">
                 <div className="social_card card_facebook">
                     <div className="user_name_container">
