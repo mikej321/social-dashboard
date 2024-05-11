@@ -233,6 +233,10 @@ main {
   .theme_switcher_container {
     gap: 1rem;
   }
+
+  .theme_switcher_container > p {
+    font-size: 1.2rem;
+  }
 }
 
 .social_card_container {
