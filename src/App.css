@@ -230,10 +230,8 @@ main {
 }
 
 @media screen and (min-width: 400px) {
-  .theme_switcher_container > p {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  .theme_switcher_container {
+    gap: 1rem;
   }
 }
 

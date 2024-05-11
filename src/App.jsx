@@ -21,7 +21,7 @@ const App = () => {
 
     return (
         <div className="container">
-            <Header clickState={(e) => changeClickState(e)} />
+            <Header clicked={clicked} clickState={(e) => changeClickState(e)} />
             <main>
                 <Content />
                 <Overview />
@@ -30,11 +30,12 @@ const App = () => {
     )
 }
 
-const Header = ({ clickState }) => {
+const Header = ({ clicked, clickState }) => {
 
     const handleClick = (e) => {
         clickState(e);
     }
+    
     return (
         <header>
             <div className="title_container">
@@ -42,7 +43,7 @@ const Header = ({ clickState }) => {
                 <p>Total Followers: 23,004</p>
             </div>
             <div className="theme_switcher_container">
-                <p>Dark Mode</p>
+                {!clicked ? <p>Dark Mode</p> : <p>Light Mode</p>}
                 <div className="theme_active_button" onClick={handleClick}>
                     <div className="bar"></div>
                     <div className="bar_ball"></div>
